@@ -9,6 +9,6 @@
 // @run-at       document-end
 // @grant        none
 // @noframes
-// @updateURL    https://raw.githubusercontent.com/keratin98/nekoidle-tools/main/%E4%BC%B0%E5%80%BC%E5%B7%A5%E8%89%BA.meta.js?v=2.2.3
-// @downloadURL  https://raw.githubusercontent.com/keratin98/nekoidle-tools/main/%E4%BC%B0%E5%80%BC%E5%B7%A5%E8%89%BA_v2.2.3.user.js
+// @updateURL    https://raw.githubusercontent.com/keratin98/nekoidle-tools/main/%E4%BC%B0%E5%80%BC%E5%B7%A5%E8%89%BA.meta.js?v=2.2.3b
+// @downloadURL  https://raw.githubusercontent.com/keratin98/nekoidle-tools/main/%E4%BC%B0%E5%80%BC%E5%B7%A5%E8%89%BA_v2.2.3.user.js?v=2.2.3b
 // ==/UserScript==
