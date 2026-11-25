@@ -9,8 +9,8 @@
 // @run-at       document-end
 // @grant        none
 // @noframes
-// @updateURL    https://raw.githubusercontent.com/keratin98/nekoidle-tools/main/%E4%BC%B0%E5%80%BC%E5%B7%A5%E8%89%BA.meta.js?v=2.2.3
-// @downloadURL  https://raw.githubusercontent.com/keratin98/nekoidle-tools/main/%E4%BC%B0%E5%80%BC%E5%B7%A5%E8%89%BA_v2.2.3.user.js
+// @updateURL    https://raw.githubusercontent.com/keratin98/nekoidle-tools/main/%E4%BC%B0%E5%80%BC%E5%B7%A5%E8%89%BA.meta.js?v=2.2.3b
+// @downloadURL  https://raw.githubusercontent.com/keratin98/nekoidle-tools/main/%E4%BC%B0%E5%80%BC%E5%B7%A5%E8%89%BA_v2.2.3.user.js?v=2.2.3b
 // ==/UserScript==
 /*
  * 估值工艺 v2.2.3
@@ -971,6 +971,7 @@
             lastRequest: 0,
             updatedAt: 0,
             count: 0,
+            cacheSize: 0,
             promise: null,
             attached: false
         };
@@ -1035,6 +1036,7 @@
             });
             st.prices = map;
             st.count = map.size;
+            st.cacheSize = (g && g.marketCacheData) ? g.marketCacheData.size : 0;
             st.loaded = true;
             st.error = false;
             st.updatedAt = Date.now();
@@ -1078,7 +1080,7 @@
             }
             return {
                 mode: st.mode, loaded: st.loaded, loading: st.loading, error: st.error,
-                count: st.count, updatedAt: st.updatedAt, lastRequest: st.lastRequest, text: text
+                count: st.count, cacheSize: st.cacheSize, updatedAt: st.updatedAt, lastRequest: st.lastRequest, text: text
             };
         }
 
@@ -1088,7 +1090,7 @@
             if (st.loading && st.promise) return st.promise;
             const now = Date.now();
             if (!force && st.loaded) return Promise.resolve(false);
-            if (now - st.lastRequest < REFRESH_MIN_MS && !(force && (st.error || !st.count))) return Promise.resolve(false);
+            if (now - st.lastRequest < REFRESH_MIN_MS && !(force && (st.error || !st.cacheSize))) return Promise.resolve(false);
 
             const g = game();
             if (!g || typeof g.loadMarketCache !== 'function') {
@@ -1954,6 +1956,7 @@
             lastRequest: 0,
             updatedAt: 0,
             count: 0,
+            cacheSize: 0,
             promise: null,
             attached: false
         };
@@ -2018,6 +2021,7 @@
             });
             st.prices = map;
             st.count = map.size;
+            st.cacheSize = (g && g.marketCacheData) ? g.marketCacheData.size : 0;
             st.loaded = true;
             st.error = false;
             st.updatedAt = Date.now();
@@ -2061,7 +2065,7 @@
             }
             return {
                 mode: st.mode, loaded: st.loaded, loading: st.loading, error: st.error,
-                count: st.count, updatedAt: st.updatedAt, lastRequest: st.lastRequest, text: text
+                count: st.count, cacheSize: st.cacheSize, updatedAt: st.updatedAt, lastRequest: st.lastRequest, text: text
             };
         }
 
@@ -2071,7 +2075,7 @@
             if (st.loading && st.promise) return st.promise;
             const now = Date.now();
             if (!force && st.loaded) return Promise.resolve(false);
-            if (now - st.lastRequest < REFRESH_MIN_MS && !(force && (st.error || !st.count))) return Promise.resolve(false);
+            if (now - st.lastRequest < REFRESH_MIN_MS && !(force && (st.error || !st.cacheSize))) return Promise.resolve(false);
 
             const g = game();
             if (!g || typeof g.loadMarketCache !== 'function') {
@@ -2841,8 +2845,8 @@
     const VERSION = '2.2.3';
     const TAG = '[通用功能]';
     const AUTO_KEY = 'nkgu_auto_market_day';
-    const META_URL = 'https://raw.githubusercontent.com/keratin98/nekoidle-tools/main/%E4%BC%B0%E5%80%BC%E5%B7%A5%E8%89%BA.meta.js?v=2.2.3';
-    const DOWNLOAD_URL = 'https://raw.githubusercontent.com/keratin98/nekoidle-tools/main/%E4%BC%B0%E5%80%BC%E5%B7%A5%E8%89%BA_v2.2.3.user.js';
+    const META_URL = 'https://raw.githubusercontent.com/keratin98/nekoidle-tools/main/%E4%BC%B0%E5%80%BC%E5%B7%A5%E8%89%BA.meta.js?v=2.2.3b';
+    const DOWNLOAD_URL = 'https://raw.githubusercontent.com/keratin98/nekoidle-tools/main/%E4%BC%B0%E5%80%BC%E5%B7%A5%E8%89%BA_v2.2.3.user.js?v=2.2.3b';
     const BOOT_MS = 500;
 
     if (window.__NK_GUJI_UPDATE__) {
@@ -2934,7 +2938,7 @@
         try {
             Promise.resolve(mk.refresh()).then(() => {
                 const st = (mk && typeof mk.status === 'function') ? mk.status() : null;
-                finish(!!(st && st.loaded && !st.error && st.count > 0));
+                finish(!!(st && st.loaded && !st.error && st.cacheSize > 0));
             }, () => finish(false));
         } catch (e) {
             finish(false);
@@ -3244,7 +3248,7 @@
         const mk = market();
         if (!mk || typeof mk.refresh !== 'function') return;
         const st = (typeof mk.status === 'function') ? mk.status() : null;
-        if (st && st.loaded && !st.error && st.count > 0) return;
+        if (st && st.loaded && !st.error && st.cacheSize > 0) return;
         if (marketRetryPending) return;
         marketRetryPending = true;
         try {
