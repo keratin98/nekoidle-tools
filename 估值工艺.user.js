@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         估值工艺
 // @namespace    nekoidle.suite
-// @version      2.2.6
-// @description  只读工具集合：加工上限、资产统计、历史记录估值。市场图标显示原始最低收购价；行情每 5 分钟自动刷新。修复首次空行情、无买单反复刷新及 WebSocket 未就绪弹窗；改用稳定更新地址，后续版本由 Tampermonkey 自动更新。不会自动点击、不会进行游戏操作。
+// @version      2.2.7
+// @description  只读工具集合：加工上限、资产统计、历史记录估值。市场图标显示原始最低收购价；行情每 5 分钟自动刷新。修复 v2.2.6 过渡空壳导致功能丢失；恢复完整脚本并保持稳定更新地址。不会自动点击、不会进行游戏操作。
 // @author       NEKOIDLE 数据包
 // @match        https://nekoidle.com/*
 // @match        https://www.nekoidle.com/*
@@ -13,7 +13,7 @@
 // @downloadURL  https://raw.githubusercontent.com/keratin98/nekoidle-tools/latest/%E4%BC%B0%E5%80%BC%E5%B7%A5%E8%89%BA.user.js
 // ==/UserScript==
 /*
- * 估值工艺 v2.2.6
+ * 估值工艺 v2.2.7
  * ────────────────────────────────────────────────
  * 只读脚本，内部保留五个相互独立的模块：
  *   1. 加工上限（nkc-）：生产 / 烹饪 / 炼金上限与预计耗时
@@ -27,13 +27,14 @@
  * 市场价格 = 收购价 × 98%（扣 2% 税）；无收购或未加载时回退出售价。
  * 市场图标显示的是原始最低收购价，不扣税，仅用于市场界面展示。
  * v2.2.5 修正（已继承）：首次 bulk 行情为空时不标记当日已完成，自动重试；市场页渲染后补装饰；用缓存条数判断刷新成功，无买单时不反复刷新；游戏 WebSocket 未 OPEN 时不发送行情请求，避免「连接状态：NULL」弹窗。
- * v2.2.6 更新：@updateURL/@downloadURL 改为稳定的 latest 标签地址，不再随版本号换文件名；只需升级一次，以后 Tampermonkey 会自动检查并安装新版本。脚本内不自行抓版本、比版本。
+ * v2.2.6 更新：@updateURL/@downloadURL 改为稳定的 latest 标签地址，不再随版本号换文件名。
+ * v2.2.7 修复：v2.2.6 过渡版本误用空壳导致功能丢失；本版恢复完整脚本，旧地址与稳定地址均提供完整内容。
  * 详细变更记录见同目录「更新日志.md」。
  */
 /* ==================== 模块 1：加工上限 ==================== */(function () {
     'use strict';
 
-    const VERSION = '2.2.6';
+    const VERSION = '2.2.7';
     const TAG = '[加工上限]';
     const DEBOUNCE = 180;
     const RESCAN_MS = 4000;
@@ -944,7 +945,7 @@
 /* ==================== 模块 2：资产统计 ==================== */(function () {
     'use strict';
 
-    const VERSION = '2.2.6';
+    const VERSION = '2.2.7';
     const TAG = '[资产统计]';
     const BOOT_MS = 500;
     const MAX_ROWS = 200;
@@ -1969,7 +1970,7 @@
 /* ==================== 模块 3：历史记录估值 ==================== */(function () {
     'use strict';
 
-    const VERSION = '2.2.6';
+    const VERSION = '2.2.7';
     const TAG = '[历史记录估值]';
     const KEY = 'nkr_span';
     const BOOT_MS = 500;
@@ -2939,7 +2940,7 @@
 (function () {
     'use strict';
 
-    const VERSION = '2.2.6';
+    const VERSION = '2.2.7';
     const TAG = '[通用功能]';
     const AUTO_KEY = 'nkgu_auto_market_day';
     const UPDATE_URL = 'https://raw.githubusercontent.com/keratin98/nekoidle-tools/latest/%E4%BC%B0%E5%80%BC%E5%B7%A5%E8%89%BA.user.js';
@@ -3167,7 +3168,7 @@
 (function () {
     'use strict';
 
-    const VERSION = '2.2.6';
+    const VERSION = '2.2.7';
     const TAG = '[市场收购价]';
     const AUTO_MS = 5 * 60 * 1000;
     const BOOT_MS = 500;
@@ -3384,7 +3385,7 @@
 })();
 /* ==================== 合并入口 ==================== */
 window.__NK_GUJI_GONGYI__ = {
-    version: '2.2.6',
+    version: '2.2.7',
     craft: window.__NK_CRAFTLIMIT__ || null,
     assets: window.__NK_ASSETS__ || null,
     record: window.__NK_RECORDVALUE__ || null,
