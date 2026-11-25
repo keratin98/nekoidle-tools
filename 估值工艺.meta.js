@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         估值工艺
 // @namespace    nekoidle.suite
-// @version      2.2.6
-// @description  只读工具集合：加工上限、资产统计、历史记录估值。市场图标显示原始最低收购价；行情每 5 分钟自动刷新。修复首次空行情、无买单反复刷新及 WebSocket 未就绪弹窗；改用稳定更新地址，后续版本由 Tampermonkey 自动更新。不会自动点击、不会进行游戏操作。
+// @version      2.2.7
+// @description  只读工具集合：加工上限、资产统计、历史记录估值。市场图标显示原始最低收购价；行情每 5 分钟自动刷新。修复 v2.2.6 过渡空壳导致功能丢失；恢复完整脚本并保持稳定更新地址。不会自动点击、不会进行游戏操作。
 // @author       NEKOIDLE 数据包
 // @match        https://nekoidle.com/*
 // @match        https://www.nekoidle.com/*
